@@ -18,7 +18,7 @@ void pass_command(server_t *server, client_t *client)
         write(client->client_fd, "230 Already logged in\r\n", 23);
         return;
     }
-    if (client->command[4] != ' ') {
+    if (client->command[4] != ' ' && strlen(client->command) > 6) {
         write(client->client_fd, "530 Please login with USER and PASS.\r\n",
             38);
         return;
