@@ -18,8 +18,6 @@
 //     if (strncasecmp(client->command, "HELP", 4) == 0)
 //         //return help_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "NOOP", 4) == 0)
-//         //return noop_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "RETR", 4) == 0)
 //         //return retr_command(server, client);
@@ -39,8 +37,10 @@ void check_command(server_t *server, client_t *client)
         return pass_command(server, client);
     if (strncasecmp(client->command, "QUIT", 4) == 0)
         return quit_command(server, client);
-    if (strncasecmp(client->command, "PWD", 3) == 0)
+    if (strcasecmp(client->command, "PWD\r\n") == 0)
         return pwd_command(server, client);
+    if (strcasecmp(client->command, "NOOP\r\n") == 0)
+        return noop_command(server, client);
 }
 //         printf("client->command = %s\n", client->command);
 //         printf("client->command = %s\n", client->command);

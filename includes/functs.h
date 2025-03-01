@@ -26,5 +26,6 @@ void user_command(server_t *server, client_t *client);
 void pass_command(server_t *server, client_t *client);
 void quit_command(server_t *server, client_t *client);
 void pwd_command(server_t *server, client_t *client);
+void noop_command(server_t *server, client_t *client);
 
 #endif /* !FUNCTS_H_ */

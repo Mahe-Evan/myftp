@@ -29,6 +29,7 @@ SRC	=	\
 	$(SRCCOM)pass_command.c	\
 	$(SRCCOM)quit_command.c	\
 	$(SRCCOM)pwd_command.c	\
+	$(SRCCOM)noop_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.cpp	\
 				$(SRC)
