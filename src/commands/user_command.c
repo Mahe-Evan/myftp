@@ -31,6 +31,7 @@ static int is_good(char *str)
 
 void user_command(server_t *server, client_t *client)
 {
+    server = server;
     if (client->is_authenticated == 1) {
         write(client->client_fd, "530 Already logged in\r\n", 24);
         return;

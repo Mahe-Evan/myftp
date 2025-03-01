@@ -15,9 +15,7 @@
 void pwd_command(server_t *server, client_t *client)
 {
     server = server;
-    if (client->is_authenticated == 0) {
-        write(client->client_fd,
-            "530 Please login with USER and PASS\r\n", 37);
+    if (is_auth(client) == 1) {
         return;
     }
     if (client->current_directory == NULL) {
