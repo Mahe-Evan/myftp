@@ -35,10 +35,14 @@ void check_command(server_t *server, client_t *client)
     server = server;
     if (strncasecmp(client->command, "USER", 4) == 0)
         return user_command(server, client);
+    if (strncasecmp(client->command, "PASS", 4) == 0)
+        return pass_command(server, client);
+    if (strncasecmp(client->command, "QUIT", 4) == 0)
+        return quit_command(server, client);
+    if (strncasecmp(client->command, "PWD", 3) == 0)
+        return pwd_command(server, client);
 }
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "PASS", 4) == 0)
-//         //return pass_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "CWD", 3) == 0)
 //         //return cwd_command(server, client);
@@ -52,8 +56,6 @@ void check_command(server_t *server, client_t *client)
 //     if (strncasecmp(client->command, "DELE", 4) == 0)
 //         //return dele_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "PWD", 3) == 0)
-//         //return pwd_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "PASV", 4) == 0)
 //         //return pasv_command(server, client);

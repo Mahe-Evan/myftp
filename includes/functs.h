@@ -23,5 +23,8 @@ void handle_existing_clients(server_t *server, client_t **client);
 void check_command(server_t *server, client_t *client);
 
 void user_command(server_t *server, client_t *client);
+void pass_command(server_t *server, client_t *client);
+void quit_command(server_t *server, client_t *client);
+void pwd_command(server_t *server, client_t *client);
 
 #endif /* !FUNCTS_H_ */
