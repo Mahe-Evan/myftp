@@ -12,20 +12,26 @@
 #include <unistd.h>
 #include <stdio.h>
 
-// static void check_command_two(server_t *server, client_t *client)
-// {
-//     server = server;
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
+static void check_command_files(server_t *server, client_t *client)
+{
+    server = server;
+    if (strncasecmp(client->command, "PASV", 4) == 0)
+        return pasv_command(server, client);
+    if (strncasecmp(client->command, "LIST", 4) == 0)
+        return list_command(client);
+    write(client->client_fd, "500 Unknown command\r\n", 21);
+}
+
 //     if (strncasecmp(client->command, "RETR", 4) == 0)
 //         //return retr_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "STOR", 4) == 0)
 //         //return stor_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     write(client->client_fd, "500 Unknown command\r\n", 21);
-// }
-
+//     if (strncasecmp(client->command, "DELE", 4) == 0)
+//         //return dele_command(server, client);
+//     if (strncasecmp(client->command, "PORT", 4) == 0)
+//         //return port_command(server, client);
 void check_command(server_t *server, client_t *client)
 {
     server = server;
@@ -45,22 +51,5 @@ void check_command(server_t *server, client_t *client)
         return cdup_command(server, client);
     if (strncasecmp(client->command, "CWD", 3) == 0)
         return cwd_command(server, client);
-    return;
+    return check_command_files(server, client);
 }
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "DELE", 4) == 0)
-//         //return dele_command(server, client);
-//         printf("client->command = %s\n", client->command);
-//         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "PASV", 4) == 0)
-//         //return pasv_command(server, client);
-//         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "PORT", 4) == 0)
-//         //return port_command(server, client);
-//         printf("client->command = %s\n", client->command);
-//     return check_command_two(server, client);
-// }

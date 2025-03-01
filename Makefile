@@ -25,6 +25,7 @@ SRC	=	\
 	$(SRCDIR)loop.c	\
 	$(SRCDIR)handle_clients.c	\
 	$(SRCDIR)check_command.c	\
+	$(SRCDIR)is_auth.c	\
 	$(SRCCOM)user_command.c	\
 	$(SRCCOM)pass_command.c	\
 	$(SRCCOM)quit_command.c	\
@@ -32,6 +33,9 @@ SRC	=	\
 	$(SRCCOM)noop_command.c	\
 	$(SRCCOM)help_command.c	\
 	$(SRCCOM)cdup_command.c	\
+	$(SRCCOM)cwd_command.c	\
+	$(SRCCOM)pasv_command.c	\
+	$(SRCCOM)list_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.cpp	\
 				$(SRC)
