@@ -26,6 +26,9 @@ SRC	=	\
 	$(SRCDIR)handle_clients.c	\
 	$(SRCDIR)check_command.c	\
 	$(SRCCOM)user_command.c	\
+	$(SRCCOM)pass_command.c	\
+	$(SRCCOM)quit_command.c	\
+	$(SRCCOM)pwd_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.cpp	\
 				$(SRC)
