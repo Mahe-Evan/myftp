@@ -31,6 +31,7 @@ SRC	=	\
 	$(SRCCOM)pwd_command.c	\
 	$(SRCCOM)noop_command.c	\
 	$(SRCCOM)help_command.c	\
+	$(SRCCOM)cdup_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.cpp	\
 				$(SRC)

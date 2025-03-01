@@ -41,18 +41,16 @@ void check_command(server_t *server, client_t *client)
         return noop_command(server, client);
     if (strncasecmp(client->command, "HELP", 4) == 0)
         return help_command(server, client);
+    if (strcasecmp(client->command, "CDUP\r\n") == 0)
+        return cdup_command(server, client);
+    if (strncasecmp(client->command, "CWD", 3) == 0)
+        return cwd_command(server, client);
     return;
 }
 //         printf("client->command = %s\n", client->command);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "CWD", 3) == 0)
-//         //return cwd_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "CDUP", 4) == 0)
-//         //return cdup_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "QUIT", 4) == 0)
-//         //return quit_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "DELE", 4) == 0)
 //         //return dele_command(server, client);
