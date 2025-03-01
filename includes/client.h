@@ -14,9 +14,10 @@
 
 typedef struct client {
     int client_fd;
+    struct sockaddr_in client_addr;
+    socklen_t addr_len;
     int data_fd;
-    int data_port;
-    bool is_pasv;
+    int is_pasv;
     char command[128];
     char name[128];
     char password[128];

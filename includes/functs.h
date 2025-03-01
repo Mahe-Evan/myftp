@@ -29,5 +29,9 @@ void pwd_command(server_t *server, client_t *client);
 void noop_command(server_t *server, client_t *client);
 void help_command(server_t *server, client_t *client);
 void cdup_command(server_t *server, client_t *client);
+void cwd_command(server_t *server, client_t *client);
+void pasv_command(server_t *server, client_t *client);
+void list_command(client_t *client);
+int is_auth(client_t *client);
 
 #endif /* !FUNCTS_H_ */
