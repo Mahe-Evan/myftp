@@ -15,8 +15,6 @@
 // static void check_command_two(server_t *server, client_t *client)
 // {
 //     server = server;
-//     if (strncasecmp(client->command, "HELP", 4) == 0)
-//         //return help_command(server, client);
 //         printf("client->command = %s\n", client->command);
 //         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "RETR", 4) == 0)
@@ -41,6 +39,9 @@ void check_command(server_t *server, client_t *client)
         return pwd_command(server, client);
     if (strcasecmp(client->command, "NOOP\r\n") == 0)
         return noop_command(server, client);
+    if (strncasecmp(client->command, "HELP", 4) == 0)
+        return help_command(server, client);
+    return;
 }
 //         printf("client->command = %s\n", client->command);
 //         printf("client->command = %s\n", client->command);
