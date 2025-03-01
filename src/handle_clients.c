@@ -12,34 +12,38 @@
 #include <unistd.h>
 
 static void handle_client_command(server_t *server, int index,
-    client_t **client)
+    client_t *client)
 {
     ssize_t bytes_read = read(server->fds[index].fd,
-        client[index]->command, 128);
+        client->command, 128);
 
     if (bytes_read > 0) {
-        client[index]->command[bytes_read] = '\0';
-        check_command(server, client[index]);
-        printf("Client command: %s\n", client[index]->command);
-        printf("Client_fd: %d\n", client[index]->client_fd);
+        client->command[bytes_read] = '\0';
+        check_command(server, client);
+        printf("Client command: %s\n", client->command);
+        printf("Client_fd: %d\n", client->client_fd);
     } else {
         printf("Failed to read client command or connection closed (fd: %d)\n",
-            server->fds[index].fd);
+            client->client_fd);
+    }
+}
+
+void send_good_client(server_t *server, client_t **client, int i)
+{
+    for (int j = 0; j < 2048; j++) {
+        if (client[j]->client_fd == server->fds[i].fd) {
+            printf("index: %d\n", i);
+            printf("Client command received (fd: %d)\n", server->fds[i].fd);
+            handle_client_command(server, i, client[j]);
+        }
     }
 }
 
 void handle_existing_clients(server_t *server, client_t **client)
 {
-    int i = 0;
-
-    for (int i = 0; i < 2048 && client[i]->client_fd == 0; i += 1)
-        continue;
-    printf("index: %d", i);
     for (int i = 0; i < 2048; i++) {
         if (server->fds[i].revents & POLLIN) {
-            printf("index: %d\n", i);
-            printf("Client command received (fd: %d)\n", server->fds[i].fd);
-            handle_client_command(server, i, client);
+            send_good_client(server, client, i);
         }
     }
 }

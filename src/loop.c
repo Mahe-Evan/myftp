@@ -16,13 +16,14 @@
 
 static void set_client(client_t **client, int client_fd, char *path)
 {
-    for (int i = 0; client[i]->client_fd != 0 && i < 2048; i++) {
-        if (client[i]->client_fd == 0) {
-            client[i]->client_fd = client_fd;
-            client[i]->current_directory = strdup(path);
-            printf("client_fd = %d\n", client_fd);
-            break;
-        }
+    int i = 0;
+
+    for (i = 0; client[i]->client_fd != 0 && i < 2048; i++)
+        continue;
+    if (client[i]->client_fd == 0) {
+        client[i]->client_fd = client_fd;
+        client[i]->current_directory = strdup(path);
+        printf("client_fd = %d\n", client_fd);
     }
 }
 
@@ -39,10 +40,11 @@ static void accept_new_client(server_t *server, client_t **client)
         return;
     }
     write(client_fd, "220 FTP Server Ready\r\n", 22);
+    printf("New client connected (fd: %d)\n", client_fd);
     if (server->poll < 2048) {
+        server->poll++;
         server->fds[server->poll].fd = client_fd;
         server->fds[server->poll].events = POLLIN;
-        server->poll++;
     } else {
         close(client_fd);
     }
@@ -51,11 +53,13 @@ static void accept_new_client(server_t *server, client_t **client)
 
 int loop(server_t *server, client_t **client)
 {
+    int poll_ret = 0;
+
     server->fds[0].fd = server->fd_server;
     server->fds[0].events = POLLIN;
     while (1) {
-        server->poll = poll(server->fds, 2048, -1);
-        if (server->poll < 0) {
+        poll_ret = poll(server->fds, 2048, -1);
+        if (poll_ret < 0) {
             perror("Poll failed");
             break;
         }
