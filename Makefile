@@ -18,7 +18,7 @@ MISC	=	./sources/miscellaneous/
 TESTS	=	./tests/
 
 #Sources
-MAIN	=	src/main.cpp
+MAIN	=	src/main.c
 SRC	=	\
 	$(SRCDIR)set_server.c	\
 	$(SRCDIR)get_dir.c	\
@@ -37,7 +37,7 @@ SRC	=	\
 	$(SRCCOM)pasv_command.c	\
 	$(SRCCOM)list_command.c	\
 
-TESTS_SRC	=	$(TESTS)tests.cpp	\
+TESTS_SRC	=	$(TESTS)tests.c	\
 				$(SRC)
 
 
