@@ -17,7 +17,9 @@ static void set_client(client_t **client)
         client[i] = malloc(sizeof(client_t));
         client[i]->client_fd = 0;
         client[i]->data_fd = 0;
-        client[i]->data_port = 0;
+        client[i]->client_addr.sin_family = AF_INET;
+        client[i]->client_addr.sin_addr.s_addr = INADDR_ANY;
+        client[i]->client_addr.sin_port = 0;
         client[i]->is_pasv = 0;
         client[i]->command[0] = '\0';
         client[i]->name[0] = '\0';
