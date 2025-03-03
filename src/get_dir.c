@@ -19,7 +19,6 @@ int check_directory(char *path)
     struct stat statbuf;
 
     if (stat(path, &statbuf) != 0) {
-        write(1, path, strlen(path));
         perror("stat");
         return 84;
     }
