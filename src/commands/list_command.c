@@ -15,6 +15,12 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+static void destroy_all(client_t *client, FILE *file)
+{
+    close(client->data_fd);
+    pclose(file);
+}
+
 static void send_data(client_t *client, char *path, FILE *file)
 {
     char buffer[2048 + 1] = {'\0'};
@@ -22,9 +28,11 @@ static void send_data(client_t *client, char *path, FILE *file)
 
     if (command == NULL) {
         write(client->client_fd, "500 Failed to list directory.\r\n", 31);
+        free(command);
         return;
     }
-    strcat(command, strcat("ls -l ", path));
+    strcat(command, "ls -l ");
+    strcat(command, path);
     file = popen(command, "r");
     free(command);
     if (file == NULL) {
@@ -35,8 +43,22 @@ static void send_data(client_t *client, char *path, FILE *file)
         write(client->data_fd, buffer, strlen(buffer));
         memset(buffer, '\0', 2048);
     }
-    write(client->client_fd, "226 Directory send OK.\r\n", 24);
-    fclose(file);
+}
+
+static bool check_data_connection(client_t *client)
+{
+    if (client->is_pasv == 0) {
+        write(client->client_fd, "425 Use PASV or PORT first.\r\n", 30);
+        return false;
+    }
+    client->data_fd = accept(client->data_fd,
+        (struct sockaddr *)&client->client_addr, &client->addr_len);
+    if (client->data_fd < 0) {
+        write(client->client_fd, "425 Can't open data connection.\r\n", 33);
+        return false;
+    }
+    write(client->client_fd, "150 Here comes the directory list.\r\n", 36);
+    return true;
 }
 
 void list_command(client_t *client)
@@ -44,17 +66,19 @@ void list_command(client_t *client)
     pid_t pid;
     FILE *file = NULL;
 
-    if (client->is_pasv == 0) {
-        write(client->client_fd, "425 Use PASV first.\r\n", 21);
+    if (!check_data_connection(client))
         return;
-    }
     pid = fork();
     if (pid < 0) {
         write(client->client_fd, "425 Fork failed.\r\n", 18);
         return;
     } else if (pid == 0) {
-        write(client->client_fd, "150 Here comes the directory list.\r\n", 36);
         send_data(client, client->current_directory, file);
+        destroy_all(client, file);
         exit(0);
+    } else {
+        waitpid(pid, NULL, 0);
+        client->is_pasv = 0;
+        write(client->client_fd, "226 Directory send OK.\r\n", 24);
     }
 }

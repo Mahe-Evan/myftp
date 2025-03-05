@@ -29,6 +29,7 @@ static void response(client_t *client, int data_socket,
         "227 Entering Passive Mode (127,0,0,1,%d,%d)\r\n",
         data_port / 256, data_port % 256);
     write(client->client_fd, response, strlen(response));
+    client->client_addr = *data_addr;
 }
 
 static void set_data_addr(struct sockaddr_in *data_addr)
