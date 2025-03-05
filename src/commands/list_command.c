@@ -45,29 +45,15 @@ static void send_data(client_t *client, char *path, FILE *file)
     }
 }
 
-static bool check_data_connection(client_t *client)
-{
-    if (client->is_pasv == 0) {
-        write(client->client_fd, "425 Use PASV or PORT first.\r\n", 30);
-        return false;
-    }
-    client->data_fd = accept(client->data_fd,
-        (struct sockaddr *)&client->client_addr, &client->addr_len);
-    if (client->data_fd < 0) {
-        write(client->client_fd, "425 Can't open data connection.\r\n", 33);
-        return false;
-    }
-    write(client->client_fd, "150 Here comes the directory list.\r\n", 36);
-    return true;
-}
-
 void list_command(client_t *client)
 {
     pid_t pid;
     FILE *file = NULL;
 
-    if (!check_data_connection(client))
+    if (!check_data_connection(client)) {
         return;
+    }
+    write(client->client_fd, "150 Here comes the directory list.\r\n", 36);
     pid = fork();
     if (pid < 0) {
         write(client->client_fd, "425 Fork failed.\r\n", 18);
