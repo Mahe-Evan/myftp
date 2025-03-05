@@ -38,6 +38,7 @@ SRC	=	\
 	$(SRCCOM)list_command.c	\
 	$(SRCCOM)dele_command.c	\
 	$(SRCCOM)retr_command.c	\
+	$(SRCCOM)stor_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.c	\
 				$(SRC)

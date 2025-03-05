@@ -34,6 +34,7 @@ void pasv_command(server_t *server, client_t *client);
 void list_command(client_t *client);
 void dele_command(server_t *server, client_t *client);
 void retr_command(server_t *server, client_t *client);
+void stor_command(server_t *server, client_t *client);
 int is_auth(client_t *client);
 bool check_data_connection(client_t *client);
 

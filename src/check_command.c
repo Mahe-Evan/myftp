@@ -23,13 +23,11 @@ static void check_command_files(server_t *server, client_t *client)
         return dele_command(server, client);
     if (strncasecmp(client->command, "RETR", 4) == 0)
         return retr_command(server, client);
+    if (strncasecmp(client->command, "STOR", 4) == 0)
+        return stor_command(server, client);
     write(client->client_fd, "500 Unknown command\r\n", 21);
 }
 
-//         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "STOR", 4) == 0)
-//         //return stor_command(server, client);
-//         printf("client->command = %s\n", client->command);
 //     if (strncasecmp(client->command, "PORT", 4) == 0)
 //         //return port_command(server, client);
 void check_command(server_t *server, client_t *client)
