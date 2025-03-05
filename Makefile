@@ -36,6 +36,7 @@ SRC	=	\
 	$(SRCCOM)cwd_command.c	\
 	$(SRCCOM)pasv_command.c	\
 	$(SRCCOM)list_command.c	\
+	$(SRCCOM)dele_command.c	\
 
 TESTS_SRC	=	$(TESTS)tests.c	\
 				$(SRC)
