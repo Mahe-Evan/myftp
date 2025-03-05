@@ -19,6 +19,8 @@ static void check_command_files(server_t *server, client_t *client)
         return pasv_command(server, client);
     if (strncasecmp(client->command, "LIST", 4) == 0)
         return list_command(client);
+    if (strncasecmp(client->command, "DELE", 4) == 0)
+        return dele_command(server, client);
     write(client->client_fd, "500 Unknown command\r\n", 21);
 }
 
@@ -28,8 +30,6 @@ static void check_command_files(server_t *server, client_t *client)
 //     if (strncasecmp(client->command, "STOR", 4) == 0)
 //         //return stor_command(server, client);
 //         printf("client->command = %s\n", client->command);
-//     if (strncasecmp(client->command, "DELE", 4) == 0)
-//         //return dele_command(server, client);
 //     if (strncasecmp(client->command, "PORT", 4) == 0)
 //         //return port_command(server, client);
 void check_command(server_t *server, client_t *client)
@@ -41,13 +41,13 @@ void check_command(server_t *server, client_t *client)
         return pass_command(server, client);
     if (strncasecmp(client->command, "QUIT", 4) == 0)
         return quit_command(server, client);
-    if (strcasecmp(client->command, "PWD\r\n") == 0)
+    if (strcasecmp(client->command, "PWD") == 0)
         return pwd_command(server, client);
-    if (strcasecmp(client->command, "NOOP\r\n") == 0)
+    if (strcasecmp(client->command, "NOOP") == 0)
         return noop_command(server, client);
     if (strncasecmp(client->command, "HELP", 4) == 0)
         return help_command(server, client);
-    if (strcasecmp(client->command, "CDUP\r\n") == 0)
+    if (strcasecmp(client->command, "CDUP") == 0)
         return cdup_command(server, client);
     if (strncasecmp(client->command, "CWD", 3) == 0)
         return cwd_command(server, client);

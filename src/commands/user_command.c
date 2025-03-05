@@ -41,7 +41,7 @@ void user_command(server_t *server, client_t *client)
             "530 Please login with USER and PASS\r\n", 37);
         return;
     }
-    if (strcasecmp(client->command + 5, "Anonymous\r\n") == 0) {
+    if (strcasecmp(client->command + 5, "Anonymous") == 0) {
         strcpy(client->name, "Anonymous");
     }
     write(client->client_fd, "331 Please specify the password\r\n", 33);

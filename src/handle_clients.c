@@ -11,12 +11,23 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static void remove_newline(char *str)
+{
+    for (int i = 0; str[i]; i++) {
+        if (str[i] == '\r') {
+            str[i] = '\0';
+            return;
+        }
+    }
+}
+
 static void handle_client_command(server_t *server, int index,
     client_t *client)
 {
     ssize_t bytes_read = read(server->fds[index].fd,
         client->command, 128);
 
+    remove_newline(client->command);
     if (bytes_read > 0) {
         client->command[bytes_read] = '\0';
         check_command(server, client);
