@@ -83,7 +83,7 @@ $(NAME): $(OBJ) $(MAIN:.cpp=.o) $(LIB_)
 
 clean:
 	rm -f $(OBJ)
-	rm -f $(MAIN:.cpp=.o)
+	rm -f $(MAIN:.c=.o)
 	rm -f $(DEP)
 	rm -f *.gcno
 	rm -f *.gcda
