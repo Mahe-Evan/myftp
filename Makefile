@@ -75,13 +75,13 @@ UNIT_FLAGS	=	$(FLAGS) -lcriterion --coverage
 
 all:	$(NAME)
 
-$(NAME): $(OBJ) $(MAIN:.cpp=.o) $(LIB_)
-	$(CC) -o $(NAME) $(OBJ) $(MAIN:.cpp=.o) $(FLAGS)
+$(NAME): $(OBJ) $(MAIN:.c=.o) $(LIB_)
+	$(CC) -o $(NAME) $(OBJ) $(MAIN:.c=.o) $(FLAGS)
 
 
 -include $(DEP)
-%.o: %.cpp
-	$(COMPILE.cpp) $< -o $@ -MMD -MF $*.d -MT $@ $(CFLAGS)
+%.o: %.c
+	$(COMPILE.c) $< -o $@ -MMD -MF $*.d -MT $@ $(CFLAGS)
 
 
 clean:
