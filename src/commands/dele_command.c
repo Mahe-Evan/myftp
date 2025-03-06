@@ -22,7 +22,6 @@ void dele_command(server_t *server, client_t *client)
         write(client->client_fd, "500 Unknown command\r\n", 21);
         return;
     }
-    printf("file = '%s'\n", client->command + 5);
     if (remove(client->command + 5) == 0) {
         write(client->client_fd, "250 File deleted.\r\n", 19);
     } else {
