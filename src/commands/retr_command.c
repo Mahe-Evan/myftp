@@ -10,7 +10,10 @@
 #include "../../includes/functs.h"
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 static void do_retr_command(client_t *client)
 {
@@ -31,20 +34,27 @@ static void do_retr_command(client_t *client)
         bytes_read = read(file_fd, buffer, 2048);
     }
     close(file_fd);
-    close(file_fd);
     file_fd = -1;
     write(client->client_fd, "226 Transfer complete.\r\n", 24);
 }
 
 void retr_command(server_t *server, client_t *client)
 {
+    pid_t pid;
+
     server = server;
-    if (is_auth(client) == 1 || !check_data_connection(client)) {
+    if (check_errors_clients(client) == 1) {
         return;
     }
-    if (client->command[4] != ' ' && strlen(client->command) > 6) {
-        write(client->client_fd, "500 Unknown command\r\n", 21);
+    pid = fork();
+    if (pid < 0) {
+        write(client->client_fd, "425 Fork failed.\r\n", 18);
         return;
+    } else if (pid == 0) {
+        do_retr_command(client);
+        exit(0);
+    } else {
+        waitpid(pid, NULL, 0);
+        close_data_connection(client);
     }
-    do_retr_command(client);
 }
