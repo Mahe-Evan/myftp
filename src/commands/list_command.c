@@ -50,7 +50,7 @@ void list_command(client_t *client)
     pid_t pid;
     FILE *file = NULL;
 
-    if (!check_data_connection(client)) {
+    if (check_errors_clients(client) == 1) {
         return;
     }
     write(client->client_fd, "150 Here comes the directory list.\r\n", 36);
@@ -64,7 +64,7 @@ void list_command(client_t *client)
         exit(0);
     } else {
         waitpid(pid, NULL, 0);
-        client->is_pasv = 0;
+        close_data_connection(client);
         write(client->client_fd, "226 Directory send OK.\r\n", 24);
     }
 }
