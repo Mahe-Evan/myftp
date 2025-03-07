@@ -6,7 +6,7 @@
 ##
 
 #Executable names
-NAME	=	my_ftp
+NAME	=	myftp
 
 TESTS_NAME	=	unit_tests.out
 
@@ -35,6 +35,7 @@ SRC	=	\
 	$(SRCCOM)cdup_command.c	\
 	$(SRCCOM)cwd_command.c	\
 	$(SRCCOM)pasv_command.c	\
+	$(SRCCOM)port_command.c	\
 	$(SRCCOM)list_command.c	\
 	$(SRCCOM)dele_command.c	\
 	$(SRCCOM)retr_command.c	\
