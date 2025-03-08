@@ -27,6 +27,9 @@ void pass_command(server_t *server, client_t *client)
     if (strcmp(client->name, "Anonymous") == 0) {
         write(client->client_fd, "230 Login successful\r\n", 22);
         client->is_authenticated = 1;
+    } else if (strcmp(client->name, "Anonymous") != 0 &&
+        strcmp(client->name, "\0") != 0) {
+        write(client->client_fd, "530 Login incorrect\r\n", 21);
     } else {
         write(client->client_fd, "503 Login with USER first\r\n", 27);
     }

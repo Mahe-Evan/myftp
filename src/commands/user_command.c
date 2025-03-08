@@ -43,6 +43,8 @@ void user_command(server_t *server, client_t *client)
     }
     if (strcasecmp(client->command + 5, "Anonymous") == 0) {
         strcpy(client->name, "Anonymous");
+    } else {
+        strcpy(client->name, client->command + 5);
     }
     write(client->client_fd, "331 Please specify the password\r\n", 33);
 }
