@@ -16,7 +16,7 @@ void pass_command(server_t *server, client_t *client)
 {
     server = server;
     if (client->is_authenticated == 1) {
-        write(client->client_fd, "230 Already logged in\r\n", 23);
+        write(client->client_fd, "530 Already logged in\r\n", 23);
         return;
     }
     if (client->command[4] != ' ' && strlen(client->command) > 6) {
