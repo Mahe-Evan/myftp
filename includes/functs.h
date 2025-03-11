@@ -30,7 +30,10 @@ void noop_command(server_t *server, client_t *client);
 void help_command(server_t *server, client_t *client);
 void cdup_command(server_t *server, client_t *client);
 void cwd_command(server_t *server, client_t *client);
+
 void pasv_command(server_t *server, client_t *client);
+void port_command(server_t *server, client_t *client);
+
 void list_command(client_t *client);
 void dele_command(server_t *server, client_t *client);
 void retr_command(server_t *server, client_t *client);
