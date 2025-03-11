@@ -39,7 +39,7 @@ SRC	=	\
 	$(SRCCOM)dele_command.c	\
 	$(SRCCOM)retr_command.c	\
 	$(SRCCOM)stor_command.c	\
-	#$(SRCCOM)port_command.c	\
+	$(SRCCOM)port_command.c	\
 
 TESTS_SRC	=	\
 				$(TESTS)connections_commands.c	\
