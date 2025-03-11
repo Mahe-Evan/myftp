@@ -23,4 +23,8 @@ void quit_command(server_t *server, client_t *client)
     client->name[0] = '\0';
     client->password[0] = '\0';
     free(client->current_directory);
+    for (int i = 0; i < MAX_CLIENTS - 1; i++) {
+        server->fds[i] = server->fds[i + 1];
+    }
+    server->fds[MAX_CLIENTS].fd = -1;
 }

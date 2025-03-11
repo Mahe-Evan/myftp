@@ -15,7 +15,7 @@ static void set_client(client_t **client)
 {
     for (int i = 0; i < MAX_CLIENTS; i++) {
         client[i] = malloc(sizeof(client_t));
-        client[i]->client_fd = 0;
+        client[i]->client_fd = -1;
         client[i]->data_fd = 0;
         client[i]->client_addr.sin_family = AF_INET;
         client[i]->client_addr.sin_addr.s_addr = INADDR_ANY;

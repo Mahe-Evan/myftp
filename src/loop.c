@@ -18,9 +18,9 @@ static void set_client(client_t **client, int client_fd, char *path)
 {
     int i = 0;
 
-    for (i = 0; client[i]->client_fd != 0 && i < MAX_CLIENTS; i++)
+    for (i = 0; client[i]->client_fd != -1 && i < MAX_CLIENTS; i++)
         continue;
-    if (client[i]->client_fd == 0) {
+    if (client[i]->client_fd == -1) {
         client[i]->client_fd = client_fd;
         client[i]->current_directory = strdup(path);
         printf("client_fd = %d\n", client_fd);
@@ -58,7 +58,7 @@ int loop(server_t *server, client_t **client)
     server->fds[0].fd = server->fd_server;
     server->fds[0].events = POLLIN;
     while (1) {
-        poll_ret = poll(server->fds, MAX_CLIENTS + 1, TIMEOUT);
+        poll_ret = poll(server->fds, server->poll + 1, TIMEOUT);
         if (poll_ret < 0) {
             perror("Poll failed");
             break;
