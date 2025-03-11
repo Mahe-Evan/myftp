@@ -35,14 +35,17 @@ SRC	=	\
 	$(SRCCOM)cdup_command.c	\
 	$(SRCCOM)cwd_command.c	\
 	$(SRCCOM)pasv_command.c	\
-	$(SRCCOM)port_command.c	\
 	$(SRCCOM)list_command.c	\
 	$(SRCCOM)dele_command.c	\
 	$(SRCCOM)retr_command.c	\
 	$(SRCCOM)stor_command.c	\
+	#$(SRCCOM)port_command.c	\
 
-TESTS_SRC	=	$(TESTS)tests.c	\
-				$(SRC)
+TESTS_SRC	=	\
+				$(TESTS)connections_commands.c	\
+				$(TESTS)print_commands.c	\
+				$(TESTS)dir_commands.c	\
+				$(TESTS)check_commands.c	\
 
 
 #Headers folder
@@ -91,7 +94,12 @@ clean:
 	rm -f $(DEP)
 	rm -f *.gcno
 	rm -f *.gcda
+	rm -f src/*.gcno src/*.gcda
+	rm -f src/commands/*.gcno src/commands/*.gcda
+	rm -f tests/*.gcno tests/*.gcda
 	rm -f vgcore.*
+	rm -f tests/*.o
+	rm -f tests/*.d
 
 libclean: clean
 
@@ -102,15 +110,11 @@ fclean:	libclean
 
 re:	fclean all
 
-tests_run:	unit_tests
-	./$(TESTS_NAME)
-
-unit_tests:
-	$(CC) -o $(TESTS_NAME) $(TESTS_SRC) $(UNIT_FLAGS)
-
-gcovr:	tests_run
+tests_run: fclean
+	$(CC) -o $(TESTS_NAME) $(SRC) $(TESTS_SRC) $(UNIT_FLAGS)
+	-./$(TESTS_NAME) --verbose
 	gcovr --exclude tests/
-	gcovr --exclude tests/ --txt-metric branch
+	gcovr --exclude tests/ --branches
 
 .PHONY:	all clean	libclean	\
 		fclean	re	remake		\
