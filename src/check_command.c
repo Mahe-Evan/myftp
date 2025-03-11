@@ -25,11 +25,11 @@ static void check_command_files(server_t *server, client_t *client)
         return retr_command(server, client);
     if (strncasecmp(client->command, "STOR", 4) == 0)
         return stor_command(server, client);
+    if (strncasecmp(client->command, "PORT", 4) == 0)
+        return port_command(server, client);
     write(client->client_fd, "500 Unknown command\r\n", 21);
 }
 
-//     if (strncasecmp(client->command, "PORT", 4) == 0)
-//         //return port_command(server, client);
 void check_command(server_t *server, client_t *client)
 {
     server = server;
