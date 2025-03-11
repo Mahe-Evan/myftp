@@ -25,6 +25,7 @@ static void response(client_t *client, int data_socket,
     }
     client->data_fd = data_socket;
     client->is_pasv = 1;
+    client->is_port = 0;
     snprintf(response, sizeof(response),
         "227 Entering Passive Mode (127,0,0,1,%d,%d)\r\n",
         data_port / 256, data_port % 256);
@@ -69,7 +70,7 @@ void pasv_command(server_t *server, client_t *client)
     socklen_t addr_len = sizeof(data_addr);
 
     server = server;
-    if (!client->is_authenticated) {
+    if (is_auth(client) == 1) {
         return;
     }
     if (setup_data_socket(&data_socket, &data_addr) == 84) {

@@ -23,7 +23,7 @@ int is_auth(client_t *client)
 
 bool check_data_connection(client_t *client)
 {
-    if (client->is_pasv == 0) {
+    if (!client->is_pasv) {
         write(client->client_fd, "425 Use PASV or PORT first.\r\n", 30);
         return false;
     }
@@ -41,6 +41,7 @@ void close_data_connection(client_t *client)
     close(client->data_fd);
     client->data_fd = -1;
     client->is_pasv = 0;
+    client->is_port = 0;
 }
 
 int check_errors_clients(client_t *client)
