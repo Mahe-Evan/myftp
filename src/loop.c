@@ -18,7 +18,7 @@ static void set_client(client_t **client, int client_fd, char *path)
 {
     int i = 0;
 
-    for (i = 0; client[i]->client_fd != 0 && i < 2048; i++)
+    for (i = 0; client[i]->client_fd != 0 && i < MAX_CLIENTS; i++)
         continue;
     if (client[i]->client_fd == 0) {
         client[i]->client_fd = client_fd;
@@ -41,7 +41,7 @@ static void accept_new_client(server_t *server, client_t **client)
     }
     write(client_fd, "220 FTP Server Ready\r\n", 22);
     printf("New client connected (fd: %d)\n", client_fd);
-    if (server->poll < 2048) {
+    if (server->poll < MAX_CLIENTS) {
         server->poll++;
         server->fds[server->poll].fd = client_fd;
         server->fds[server->poll].events = POLLIN;
@@ -58,10 +58,14 @@ int loop(server_t *server, client_t **client)
     server->fds[0].fd = server->fd_server;
     server->fds[0].events = POLLIN;
     while (1) {
-        poll_ret = poll(server->fds, 2048, -1);
+        poll_ret = poll(server->fds, MAX_CLIENTS + 1, TIMEOUT);
         if (poll_ret < 0) {
             perror("Poll failed");
             break;
+        }
+        if (poll_ret == 0) {
+            printf("Poll timed out\n");
+            continue;
         }
         if (server->fds[0].revents & POLLIN) {
             accept_new_client(server, client);

@@ -41,7 +41,7 @@ static void handle_client_command(server_t *server, int index,
 
 void send_good_client(server_t *server, client_t **client, int i)
 {
-    for (int j = 0; j < 2048; j++) {
+    for (int j = 0; j < MAX_CLIENTS; j++) {
         if (client[j]->client_fd == server->fds[i].fd) {
             printf("index: %d\n", i);
             printf("Client command received (fd: %d)\n", server->fds[i].fd);
@@ -52,7 +52,7 @@ void send_good_client(server_t *server, client_t **client, int i)
 
 void handle_existing_clients(server_t *server, client_t **client)
 {
-    for (int i = 0; i < 2048; i++) {
+    for (int i = 0; i < MAX_CLIENTS; i++) {
         if (server->fds[i].revents & POLLIN) {
             send_good_client(server, client, i);
         }

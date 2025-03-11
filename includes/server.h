@@ -12,9 +12,12 @@
     #include <netinet/in.h>
     #include <poll.h>
 
+    #define MAX_CLIENTS 128
+    #define TIMEOUT 5000
+
 typedef struct server_s {
     int fd_server;
-    struct pollfd fds[2048];
+    struct pollfd fds[MAX_CLIENTS + 1];
     int port;
     int status;
     char *path;

@@ -13,7 +13,7 @@
 
 static void set_client(client_t **client)
 {
-    for (int i = 0; i < 2048; i++) {
+    for (int i = 0; i < MAX_CLIENTS; i++) {
         client[i] = malloc(sizeof(client_t));
         client[i]->client_fd = 0;
         client[i]->data_fd = 0;
@@ -33,18 +33,18 @@ static void set_client(client_t **client)
 int main(int ac, char **av)
 {
     server_t *server = malloc(sizeof(server_t));
-    client_t *client[2048];
+    client_t *client[MAX_CLIENTS];
 
     set_client(client);
     if (server == NULL || ac != 3 || set_server(av, server) == 84) {
         free(server->path);
-        for (int i = 0; i < 2048; i++)
+        for (int i = 0; i < MAX_CLIENTS; i++)
             free(client[i]);
         free(server);
         return 84;
     }
     loop(server, client);
-    for (int i = 0; i < 2048; i++)
+    for (int i = 0; i < MAX_CLIENTS; i++)
         free(client[i]);
     free(server->path);
     free(server);
