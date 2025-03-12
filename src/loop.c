@@ -58,7 +58,7 @@ int loop(server_t *server, client_t **client)
     server->fds[0].fd = server->fd_server;
     server->fds[0].events = POLLIN;
     while (1) {
-        poll_ret = poll(server->fds, server->poll + 1, TIMEOUT);
+        poll_ret = poll(server->fds, server->poll + 1, -1);
         if (poll_ret < 0) {
             perror("Poll failed");
             break;
