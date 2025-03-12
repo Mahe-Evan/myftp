@@ -27,6 +27,11 @@ static void check_command_files(server_t *server, client_t *client)
         return stor_command(server, client);
     if (strncasecmp(client->command, "PORT", 4) == 0)
         return port_command(server, client);
+    if (is_auth(client) == 1) {
+        write(client->client_fd,
+            "530 Please login with USER and PASS\r\n", 37);
+        return;
+    }
     write(client->client_fd, "500 Unknown command\r\n", 21);
 }
 
