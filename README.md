@@ -39,9 +39,6 @@ This will allow you to observe the server's responses and verify that it properl
 ## Commands
 See the detailed [commands documentation](docs/commands.md) for a list of supported FTP commands and their usage.
 
-## Architecture
-See the detailed [architecture documentation](docs/architecture.md) for a visual representation of the system components.
-
 ## Protocols
 See the detailed [protocols documentation](docs/protocols.md) for a summary of the FTP protocol and its components.
 
